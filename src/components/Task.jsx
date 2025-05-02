@@ -18,7 +18,7 @@ const Task = () => {
     const addTask = () => {
         if (text.trim() !== "") {
             const newTask = {
-                id: Date.now(), // ✅ Use timestamp for unique ID
+                id: Date.now(),
                 text: text,
                 completed: false
             };
