@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.delete-icon svg {
+    transition: all 200ms linear;
+}
+
+.delete-icon svg:hover {
+    fill: red;
+}
