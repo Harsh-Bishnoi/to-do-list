@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { Delete } from '../utils/icon';
 
 const Task = () => {
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState(() => {
+        const savedTasks = localStorage.getItem('tasks');
+        return savedTasks ? JSON.parse(savedTasks) : [];
+    });
+
     const [text, setText] = useState("");
 
+    const updateLocalStorage = (newTasks) => {
+        localStorage.setItem('tasks', JSON.stringify(newTasks));
+    };
+
     const handleCheckboxChange = (id) => {
-        setTasks(tasks.map(task =>
+        const updatedTasks = tasks.map(task =>
             task.id === id ? { ...task, completed: !task.completed } : task
-        ));
+        );
+        setTasks(updatedTasks);
+        updateLocalStorage(updatedTasks);
     };
 
     const handleDelete = (id) => {
-        setTasks(tasks.filter(task => task.id !== id));
+        const updatedTasks = tasks.filter(task => task.id !== id);
+        setTasks(updatedTasks);
+        updateLocalStorage(updatedTasks);
     };
 
     const addTask = () => {
@@ -22,7 +34,9 @@ const Task = () => {
                 text: text,
                 completed: false
             };
-            setTasks([newTask, ...tasks]);
+            const updatedTasks = [newTask, ...tasks];
+            setTasks(updatedTasks);
+            updateLocalStorage(updatedTasks);
             setText("");
         }
     };
